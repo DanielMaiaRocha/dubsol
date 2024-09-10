@@ -1,4 +1,4 @@
-import Dubsol from "@/assets/dubsol.png"
+import Dubsol from "@/assets/Dubsol.png"
 import Rec from "@/assets/rec.png"
 import Image from "next/image";
 
