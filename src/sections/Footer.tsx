@@ -1,37 +1,37 @@
+import DubsolLogo from "@/assets/logodubsol.png";
 import Image from "next/image";
-import logo from "@/assets/logosaas.png";
-import SocialX from "@/assets/social-x.svg";
-import SocialInsta from "@/assets/social-insta.svg";
-import SocialLinkedIn from "@/assets/social-linkedin.svg";
-import SocialPin from "@/assets/social-pin.svg";
-import SocialYoutube from "@/assets/social-youtube.svg";
+import SocialL from "@/assets/social-linkedin.svg";
+import SocialI from "@/assets/social-insta.svg";
+import SocialSite from "@/assets/logo.svg";
 
 export const Footer = () => {
   return (
-    <footer className="bg-black text-[#BCBCBC] text-sm py-10 text-center">
+    <section id="Footer" className="bg-gray-900 text-[#BCBCBC] text-sm py-10 text-center">
       <div className="container">
-        <div className="inline-flex relative before:content-[''] before:top-2 before:bottom-0 before:w-full before:blur before:bg-[linear-gradient(to_right,#F87BFF,#FB92CF,#FFDD9B,#C2F0B1,#2FD8FE)] before:absolute">
-          <Image src={logo} height={40} alt="SaaS logo" className="relative" />
+        <div className="inline-flex relative">
+          <Image src={DubsolLogo} alt="dubsol" height={50} />
         </div>
         <nav className="flex flex-col md:flex-row md:justify-center gap-6 mt-6">
-          <a href="#">About</a>
-          <a href="#">Features</a>
-          <a href="#">Customers</a>
-          <a href="#">Pricing</a>
-          <a href="#">Help</a>
-          <a href="#">Careers</a>
+          <a href="#About" className="hover:text-white">About</a>
+          <a href="#Features" className="hover:text-white">Features</a>
+          <a href="#Customers" className="hover:text-white">Customers</a>
+          <a href="#Quote" className="hover:text-white">Quote</a>
+          <a href="#" className="hover:text-white">Help</a>
+          <a href="https://alcateia.dubsol.app/login.php" target="_blank" className="hover:text-white">System</a>
         </nav>
-        <div className="flex justify-center gap-6 mt-6">
-          <SocialX />
-          <SocialInsta />
-          <SocialLinkedIn />
-          <SocialPin />
-          <SocialYoutube />
+        <div className="flex flex-row justify-center gap-6 mt-6">
+          <a href="https://www.instagram.com/alcateia.audiovisual/" target="_blank" className="hover:text-white">
+            <SocialI />
+          </a>
+          <a href="https://www.linkedin.com/company/dubsol/" target="_blank" className="hover:text-white">
+            <SocialL />
+          </a>
+          <a href="https://alcateia.dubsol.app/login.php" target="_blank" className="hover:text-white">
+            <SocialSite className="w-6 h-6" />
+          </a>
         </div>
-        <p className="mt-6">
-          &copy; 2024 Your Company, Inc. All rights reserved.
-        </p>
+        <p className="mt-6">&copy; 2024 Dubsol, Inc. All rights reserved</p>
       </div>
-    </footer>
+    </section>
   );
 };
