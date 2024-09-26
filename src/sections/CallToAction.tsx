@@ -13,7 +13,7 @@ export const CallToAction = () => {
   });
   const translateY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   return (
-    <section id="Quote" ref={ActionRef} className="bg-gradient-to-b from-white to-[#D2DCFF] py-24 overflow-x-clip">
+    <section id="Quote" ref={ActionRef} className="bg-white py-24 overflow-x-clip">
       <div className="container">
         <div className="section-title-word-config relative">
           <h2 className="section-title">Get your quotation!</h2>

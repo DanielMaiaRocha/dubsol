@@ -45,43 +45,6 @@ export const Hero = () => {
               </button>
             </div>
           </div>
-          <div className="mt-20 md:mt-0 md:h-[648px] md:flex-1 relative">
-            <motion.img
-              src={logoMain.src}
-              alt="logoMain"
-              className="md:absolute md:h-full md:w-auto md:max-w-none md:-left-32 lg:left-12 "
-              animate={{
-                translateY: [-30, 30],
-              }}
-              transition={{
-                repeat: Infinity,
-                repeatType: "mirror",
-                duration: 7,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.img
-              src={Cam.src}
-              alt="camera"
-              width={180}
-              height={180}
-              className="hidden md:block -top-8 lg:left-10 md:absolute rotate-[30deg]"
-              style={{
-                translateY:translateY,
-                rotate:"30deg"
-              }}
-            />
-            <motion.img
-              src={Claquete.src}
-              alt="claquete"
-              width={180}
-              height={180}
-              className="hidden lg:block absolute top-[518px] left-[580px] rotate-[-40deg] "
-              style={{
-                translateY: translateY
-              }}
-            />
-          </div>
         </div>
       </div>
     </section>

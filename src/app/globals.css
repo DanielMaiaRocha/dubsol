@@ -41,6 +41,11 @@
   .card {
     @apply p-10 border bg-white/40 border-[#f1f1f1] rounded-3xl shadow-[0_7px_14px_#EAEAEA] max-w-xs w-full
   }
+
+  .email-form {
+    @apply p-7 flex flex-col border bg-white/80 border-[#f1f1f1] rounded-md shadow-[0_7px_14px_gray-900] max-w-xl w-full
+  }
+
   html  {
     scroll-behavior: smooth;
   }
