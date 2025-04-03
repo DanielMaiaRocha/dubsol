@@ -14,6 +14,7 @@
     "formidable": "^3.5.1",
     "framer-motion": "^11.2.14",
     "handlebars": "^4.7.8",
+    "lucide-react": "^0.487.0",
     "next": "^14.2.13",
     "nodemailer": "^6.9.15",
     "react": "^18",
