@@ -39,7 +39,7 @@ export const Hero = () => {
             </p>
             <div className="flex gap-1 items-center mt-[30px]">
               <Link href={"#"} className="btn btn-primary">Start for free</Link>
-              <button className="btn btn-text gap-1">
+              <button className="btn btn-text gap-1 mb-4">
                 <span>Learn more</span>
                 <ArrowIcon className="h-5 w-5" />
               </button>
