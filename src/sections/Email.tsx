@@ -7,6 +7,11 @@ export const Email = () => {
     email: "",
     message: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -18,8 +23,16 @@ export const Email = () => {
   };
 
   const send = async () => {
+    setIsLoading(true);
+    setSubmitStatus(null);
+    
     try {
-      const response = await fetch("/api/send-email", {
+      // Validação básica
+      if (!formData.email.includes('@')) {
+        throw new Error("Por favor, insira um email válido");
+      }
+
+      const response = await fetch("http://localhost:5000/api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,13 +40,25 @@ export const Email = () => {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+      
       if (response.ok) {
-        console.log("Email enviado com sucesso");
+        setSubmitStatus({
+          success: true,
+          message: "Email enviado com sucesso!"
+        });
+        setFormData({ name: "", email: "", message: "" });
       } else {
-        console.error("Erro ao enviar o email");
+        throw new Error(data.message || "Erro ao enviar o email");
       }
     } catch (error) {
-      console.error("Erro ao enviar o email:", error);
+      setSubmitStatus({
+        success: false,
+        message: error instanceof Error ? error.message : "Erro de conexão"
+      });
+      console.error("Erro:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,6 +72,18 @@ export const Email = () => {
             speak with our team and schedule a meeting with us!
           </p>
         </div>
+        
+        {/* Mensagem de status */}
+        {submitStatus && (
+          <div className={`mb-4 p-4 rounded-md ${
+            submitStatus.success 
+              ? "bg-green-100 text-green-800" 
+              : "bg-red-100 text-red-800"
+          }`}>
+            {submitStatus.message}
+          </div>
+        )}
+
         <div>
           <form
             id="contact-form"
@@ -65,7 +102,7 @@ export const Email = () => {
               name="name"
               placeholder="Quentin Tarantino"
               required
-              className="border rounded-md h-10 p-1"
+              className="border rounded-md h-10 p-1 w-full"
               value={formData.name}
               onChange={handleChange}
             />
@@ -79,10 +116,11 @@ export const Email = () => {
               name="email"
               placeholder="example@gmail.com"
               required
-              className="border rounded-md h-10 p-1"
+              className="border rounded-md h-10 p-1 w-full"
               value={formData.email}
               onChange={handleChange}
             />
+
             <label className="mt-3 text-[20px] tracking-tight text-[#010D3E]">
               Message:
             </label>
@@ -91,12 +129,17 @@ export const Email = () => {
               name="message"
               placeholder="Make a quick resume of what you are looking for."
               required
-              className="resize-none h-28 border rounded-md p-1"
+              className="resize-none h-28 border rounded-md p-1 w-full"
               value={formData.message}
               onChange={handleChange}
             />
-            <button type="submit" className="btn btn-primary mt-6">
-              Send
+
+            <button 
+              type="submit" 
+              className="btn btn-primary mt-6"
+              disabled={isLoading}
+            >
+              {isLoading ? "Sending..." : "Send"}
             </button>
           </form>
         </div>

@@ -67,5 +67,35 @@ def listar_emails():
     emails = receber_emails()
     return jsonify(emails)
 
+app.route('/api/send-email', methods=['POST'])
+def enviar_email():
+    try:
+        data = request.json
+        destinatario = os.getenv('SMTP_USER')  # Enviando para você mesmo
+        remetente = data['email']
+        assunto = f"Contato de {data['name']}: {data['email']}"
+        corpo = data['message']
+
+        # Configuração do email
+        msg = MIMEText(corpo)
+        msg['Subject'] = assunto
+        msg['From'] = remetente
+        msg['To'] = destinatario
+
+        # Enviar email
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(os.getenv('SMTP_USER'), os.getenv('SMTP_PASSWORD'))
+            smtp.send_message(msg)
+
+        # Registrar no banco de dados
+        dbi.message_log(remetente, corpo, assunto, destinatario)
+
+        return jsonify({"status": "success"}), 200
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
+    
+    
