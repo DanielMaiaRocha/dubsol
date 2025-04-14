@@ -3,9 +3,9 @@ import { useState } from "react";
 
 export const Email = () => {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
-    message: "",
+    assunto: "",
+    mensagem: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
@@ -27,35 +27,34 @@ export const Email = () => {
     setSubmitStatus(null);
     
     try {
-      // Validação melhorada
-      if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      // Validação básica do email
+      if (!formData.email.includes('@') || !formData.email.includes('.')) {
         throw new Error("Por favor, insira um email válido");
       }
-  
+
       const response = await fetch("http://localhost:5000/api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: formData.name,
           email: formData.email,
-          message: formData.message
+          assunto: formData.assunto,
+          mensagem: formData.mensagem
         }),
       });
-  
+
       const data = await response.json();
       
-      if (!response.ok) {
-        throw new Error(data.error || data.message || "Erro ao enviar o email");
+      if (response.ok) {
+        setSubmitStatus({
+          success: true,
+          message: "Email enviado com sucesso!"
+        });
+        setFormData({ email: "", assunto: "", mensagem: "" });
+      } else {
+        throw new Error(data.message || "Erro ao enviar o email");
       }
-  
-      setSubmitStatus({
-        success: true,
-        message: data.message || "Email enviado com sucesso!"
-      });
-      setFormData({ name: "", email: "", message: "" });
-  
     } catch (error) {
       setSubmitStatus({
         success: false,
@@ -71,10 +70,9 @@ export const Email = () => {
     <section className="bg-gradient-to-b from-white to-[#D2DCFF] py-24">
       <div className="container">
         <div className="section-title-word-config">
-          <h2 className="section-title">Send an Email</h2>
+          <h2 className="section-title">Enviar Email</h2>
           <p className="section-desc mt-5">
-            In a couple of hours, your e-mail will be responded, and you can
-            speak with our team and schedule a meeting with us!
+            Envie sua mensagem e entraremos em contato em breve.
           </p>
         </div>
         
@@ -91,7 +89,6 @@ export const Email = () => {
 
         <div>
           <form
-            id="contact-form"
             className="email-form section-title-word-config mt-6"
             onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
               e.preventDefault();
@@ -99,43 +96,40 @@ export const Email = () => {
             }}
           >
             <label className="text-[20px] tracking-tight text-[#010D3E]">
-              Name:
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Quentin Tarantino"
-              required
-              className="border rounded-md h-10 p-1 w-full"
-              value={formData.name}
-              onChange={handleChange}
-            />
-
-            <label className="mt-3 text-[20px] tracking-tight text-[#010D3E]">
               Email:
             </label>
             <input
               type="email"
-              id="email"
               name="email"
-              placeholder="example@gmail.com"
+              placeholder="cliente@exemplo.com"
               required
-              className="border rounded-md h-10 p-1 w-full"
+              className="border rounded-md h-10 p-1 w-full mb-4"
               value={formData.email}
               onChange={handleChange}
             />
 
-            <label className="mt-3 text-[20px] tracking-tight text-[#010D3E]">
-              Message:
+            <label className="text-[20px] tracking-tight text-[#010D3E]">
+              Assunto:
+            </label>
+            <input
+              type="text"
+              name="assunto"
+              placeholder="Quero mais informações"
+              required
+              className="border rounded-md h-10 p-1 w-full mb-4"
+              value={formData.assunto}
+              onChange={handleChange}
+            />
+
+            <label className="text-[20px] tracking-tight text-[#010D3E]">
+              Mensagem:
             </label>
             <textarea
-              id="message"
-              name="message"
-              placeholder="Make a quick resume of what you are looking for."
+              name="mensagem"
+              placeholder="Olá! Gostaria de saber mais sobre os serviços oferecidos."
               required
-              className="resize-none h-28 border rounded-md p-1 w-full"
-              value={formData.message}
+              className="resize-none h-28 border rounded-md p-1 w-full mb-4"
+              value={formData.mensagem}
               onChange={handleChange}
             />
 
@@ -144,7 +138,7 @@ export const Email = () => {
               className="btn btn-primary mt-6"
               disabled={isLoading}
             >
-              {isLoading ? "Sending..." : "Send"}
+              {isLoading ? "Enviando..." : "Enviar Mensagem"}
             </button>
           </form>
         </div>
