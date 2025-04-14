@@ -70,47 +70,8 @@ def listar_emails():
     return jsonify(emails)
 
 @app.route('/api/send-email', methods=['POST'])
-def enviar_email():
-    try:
-        data = request.get_json()
-
-        # Validação dos dados recebidos
-        required_fields = ['name', 'email', 'message']
-        if not all(field in data for field in required_fields):
-            return jsonify({"status": "error", "message": "Campos obrigatórios ausentes"}), 400
-
-        remetente = data['email']
-        nome = data['name']
-        mensagem = data['message']
-
-        destinatario = os.getenv('SMTP_USER')
-        senha = os.getenv('SMTP_PASSWORD')
-
-        if not destinatario or not senha:
-            return jsonify({"status": "error", "message": "Configuração de email ausente"}), 500
-
-        assunto = f"Contato de {nome}: {remetente}"
-
-        # Montagem do e-mail
-        msg = EmailMessage()
-        msg.set_content(mensagem)
-        msg['Subject'] = assunto
-        msg['From'] = remetente
-        msg['To'] = destinatario
-
-        # Envio do e-mail
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-            smtp.login(destinatario, senha)
-            smtp.send_message(msg)
-
-        # Registro no banco de dados
-        dbi.message_log(remetente, mensagem, assunto, destinatario)
-
-        return jsonify({"status": "success"}), 200
-
-    except Exception as e:
-        logging.exception("Erro ao enviar email")  
-        return jsonify({"status": "error", "message": "Erro interno ao enviar o email"}), 500
+def send_email():
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
