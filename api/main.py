@@ -39,7 +39,7 @@ def listar_emails():
 @app.route('/api/send-email', methods=['POST'])
 def send_email():
     data = request.get_json()
-    remetente = os.getenv('SMTP_USER')  # ou data['remetente'] se vier do front
+    remetente = os.getenv('SMTP_USER')  
     destinatario = data['destinatario']
     assunto = data['assunto']
     corpo = data['corpo']
