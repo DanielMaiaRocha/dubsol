@@ -27,30 +27,35 @@ export const Email = () => {
     setSubmitStatus(null);
     
     try {
-      // Validação básica
-      if (!formData.email.includes('@')) {
+      // Validação melhorada
+      if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
         throw new Error("Por favor, insira um email válido");
       }
-
+  
       const response = await fetch("http://localhost:5000/api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        }),
       });
-
+  
       const data = await response.json();
       
-      if (response.ok) {
-        setSubmitStatus({
-          success: true,
-          message: "Email enviado com sucesso!"
-        });
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        throw new Error(data.message || "Erro ao enviar o email");
+      if (!response.ok) {
+        throw new Error(data.error || data.message || "Erro ao enviar o email");
       }
+  
+      setSubmitStatus({
+        success: true,
+        message: data.message || "Email enviado com sucesso!"
+      });
+      setFormData({ name: "", email: "", message: "" });
+  
     } catch (error) {
       setSubmitStatus({
         success: false,
