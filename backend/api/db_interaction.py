@@ -4,7 +4,7 @@ import tzlocal
 
 local_tz = tzlocal.get_localzone()
 
-def message_log(remetente, corpo, assunto, destinatario):
+def message_log(corpo, assunto, remetente):
     conn = criar_conexao()  # Conexão criada dentro da função
     cursor = conn.cursor()
 
@@ -13,8 +13,8 @@ def message_log(remetente, corpo, assunto, destinatario):
         timestamp = datetime.datetime.now(local_tz).strftime('%Y-%m-%d %H:%M:%S')
 
         # Inserir a mensagem no banco de dados
-        sql = "INSERT INTO email_messages (sender, receiver, subject, message, timestamp) VALUES (%s, %s, %s, %s, %s)"
-        cursor.execute(sql, (destinatario, remetente, assunto, corpo, timestamp))
+        sql = "INSERT INTO email_messages (sender, subject, message, timestamp) VALUES (%s, %s, %s, %s)"
+        cursor.execute(sql, (remetente, assunto, corpo, timestamp))
 
         # Commit da transação
         conn.commit()
