@@ -1,3 +1,4 @@
+"use client";
 import Check from "@/assets/check.svg";
 import { twMerge } from "tailwind-merge";
 

@@ -1,3 +1,4 @@
+"use client";
 import ArrowRight from "@/assets/arrow-right.svg";
 import Logo from "@/assets/logo.png";
 import Image from "next/image";

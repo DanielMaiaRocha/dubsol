@@ -1,3 +1,4 @@
+"use client";
 import DubsolLogo from "@/assets/logodubsol.png";
 import Image from "next/image";
 import SocialL from "@/assets/social-linkedin.svg";

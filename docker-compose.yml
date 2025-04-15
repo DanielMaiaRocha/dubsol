@@ -5,11 +5,9 @@ services:
     ports:
       - "5000:5000"
     env_file:
-      - .env
+      - backend/api/.env
 
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
-    env_file:
-      - .env
